@@ -11,5 +11,5 @@ rm-expired-backup
 --path-to-backups (-p) - specify path to directory with backups. Suppose full backups and incremental backups are located at the same directory 
 --help (-h) - prints help message
 --log (-l) path to file with logs.logs writes via syslogd
-
+--
 
