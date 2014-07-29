@@ -9,3 +9,4 @@ rm-expired-backup
 --max-increments (-i) - 
 --max-full-backups (-fb) - 
 --path-to-backups (-p) - 
+--help (-h) -
