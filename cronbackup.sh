@@ -11,7 +11,6 @@ THREADS=4
 NUMBEROFFULLBACKUPS=1
 NUMBERINCRBACKUPS=3
 LOCKFILE=/var/run/cronbackup.lock
-LOG=/var/log/cronbackup.log
 ###########################
 #### lockfile ####
 if [ -e "$LOCKFILE" ]
@@ -30,7 +29,7 @@ NUMBEROFCURRENTINCRBACKUPS=$(ls -1 "$BACKUPDIR"/"$CURRENTFULLBACKUP"/INC 2>/dev/
 ########################
 function makefull
 {
-	/root/bin/xb-backup-incremental.sh -r "$BACKUPDIR" -u  "$DBUSER" -p "$DBPASS" --backup-threads="$THREADS" >> "$LOG"
+	/root/bin/xb-backup-incremental.sh -r "$BACKUPDIR" -u  "$DBUSER" -p "$DBPASS" --backup-threads="$THREADS" 
 
 	return 0
 }
@@ -38,7 +37,7 @@ function makefull
 function makeincremental
 {
 
-	/root/bin/xb-backup-incremental.sh -r "$BACKUPDIR" -u  "$DBUSER" -p "$DBPASS" --increment --backup-threads="$THREADS" >> "$LOG"
+	/root/bin/xb-backup-incremental.sh -r "$BACKUPDIR" -u  "$DBUSER" -p "$DBPASS" --increment --backup-threads="$THREADS" 
 
 	return 0
 }
@@ -48,15 +47,15 @@ function rmexpiredbackups
 	
 	if [[ "$CURRENTNUMBEROFFULLBACKUPS" -ge "$NUMBEROFFULLBACKUPS" ]] && [[ "$NUMBEROFCURRENTINCRBACKUPS" -ge "$NUMBERINCRBACKUPS" ]] && [[ "$NUMBEROFINCREMENTALBACKUPSINOLDESTFULL" -ge "$NUMBERINCRBACKUPS" ]]
         	then
-		echo -e "deleting old backups: "$BACKUPDIR"/"$OLDESTBACKUP"\n" >> "$LOG"
+		echo -e "deleting old backups: "$BACKUPDIR"/"$OLDESTBACKUP"\n" 
         	rm -rf "$BACKUPDIR"/"$OLDESTBACKUP"
-		echo -e "old backups deleted at `date +%F-%T`\n" >> "$LOG" 
+		echo -e "old backups deleted at `date +%F-%T`\n"  
 	elif [[ "$CURRENTNUMBEROFFULLBACKUPS" -gt "$NUMBEROFFULLBACKUPS" ]] && ([[ "$NUMBEROFINCREMENTALBACKUPSINOLDESTFULL" -lt "$NUMBERINCRBACKUPS" ]] || [[ "$NUMBEROFCURRENTINCRBACKUPS" -lt "$NUMBERINCRBACKUPS" ]])
         	then
-        	echo -e "not enough incremental backups to delete\n" >> "$LOG"
+        	echo -e "not enough incremental backups to delete\n" 
 	elif [[ "$CURRENTNUMBEROFFULLBACKUPS" -lt "$NUMBEROFFULLBACKUPS" ]]
         	then
-        	echo -e "not enough full backups to delete\n" >> "$LOG"
+        	echo -e "not enough full backups to delete\n" 
     	fi
     
 	return 0;
@@ -70,7 +69,7 @@ function rmexpiredbackups
 		then makefull
 	elif [[ "$NUMBEROFCURRENTINCRBACKUPS" -lt "$NUMBERINCRBACKUPS" ]] && [[ "$CURRENTNUMBEROFFULLBACKUPS" -gt 0 ]]
 		then makeincremental
-	else echo -e "some error ocurred!\n" >> "$LOG";exit 2
+	else echo -e "some error ocurred!\n" ;exit 2
 	fi	 
 
  
