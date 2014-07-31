@@ -20,7 +20,7 @@ if [ -e "$LOCKFILE" ]
 	exit 1;
 fi
 touch "$LOCKFILE";
-trap 'rm -f "$LOCKFILE"; exit $?' INT TERM EXIT # signals handler(analog sigaction() family? )
+trap 'rm -f "$LOCKFILE"; exit $?' INT TERM EXIT # signals handler(analog signal() family? )
 #########################
 CURRENTNUMBEROFFULLBACKUPS=$(ls -1t "$BACKUPDIR" 2>/dev/null  | wc -l)
 OLDESTBACKUP=$(ls -1t "$BACKUPDIR" 2>/dev/null|  tail -n1)
