@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-set -x
+#set -x
 
 ######################
 ##### Settings #######
@@ -51,7 +51,7 @@ rmexpiredbackups()
         	rm -rf "$BACKUPDIR"/"$OLDESTBACKUP"
 		echo -e "old backups deleted at `date +%F-%T`\n"  
 	else
-		echo -e "nothing to delete\n"
+		echo -e "nothing to delete of backups\n"
 	fi
 	return 0;
 
