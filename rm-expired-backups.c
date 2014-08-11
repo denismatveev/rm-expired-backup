@@ -28,7 +28,7 @@
 
 1. добавить опции в getopt(или как там реализовано)
 2. Макросами захардкодить кол-во инкрементов, количество полных бекапов и проч
-3. Считать содержимое каталога с бекапами, поместить в структуру и сортировать делать другие действия. 
+3. Считать содержимое каталога с бекапами, поместить в структуру и сортировать и делать другие действия. 
 
 Важно создавать имена каталогов именно с такими именами.
 prepare делать автоматически?
@@ -36,6 +36,12 @@ prepare делать автоматически?
 **********************************************************************************************************/
 #define FULLBACKUPS 2 // number of full backup
 #define INCRBACKUPS 14 // number of incremental backups
+
+int removebackups();
+int find_expires_backups();
+
+
+
 int main(int agrc, char ** argv)
 {
 
@@ -43,8 +49,8 @@ int main(int agrc, char ** argv)
     char oc;
     help_message="Usage: %s [-c check backups]\n"
                  "          [-r remove expired backups]\n"
-                 "          [-f force. It works only with -r option\n]";
-
+                 "          [-f force. It works only with -r option\n]"
+                 "          [-p path to directory where backups store\n]";
     while((oc=getopt(argc, argv, ":crf:h")) != -1)
     {
         switch (oc)
@@ -54,9 +60,9 @@ int main(int agrc, char ** argv)
               exit(1);
 
           case 'r':
-          
+                removebackups();          
           case 'c':
-
+                find_expires_backups();
           case 'f':
           case ':':
             fprintf(stderr, "Option -%c requires an argument\n",optopt); 
