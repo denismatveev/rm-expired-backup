@@ -42,9 +42,10 @@ int main(int agrc, char ** argv)
     char *help_message;
     char oc;
     help_message="Usage: %s [-c check backups]\n"
-                 "          [-r remove expired backups]\n";
+                 "          [-r remove expired backups]\n"
+                 "          [-f force. It works only with -r option\n]";
 
-    while((oc=getopt(argc, argv, ":c:r:")) != -1)
+    while((oc=getopt(argc, argv, ":crf:h")) != -1)
     {
         switch (oc)
         {
@@ -56,6 +57,10 @@ int main(int agrc, char ** argv)
           
           case 'c':
 
+          case 'f':
+          case ':':
+            fprintf(stderr, "Option -%c requires an argument\n",optopt); 
+            exit(1);
           default:
               fprintf(stderr,%s,help_message);
               exit(2);
