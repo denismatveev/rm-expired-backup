@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-
+#include<getopt.h>
 /****************************************************************************************************
 1. добавить функцию check_backups_dates
 2. исключить опции которые не понадобятся
@@ -20,6 +20,8 @@
 2. если количество инкрементов 14 и есть два полных - удалить первый полный и все его инктерменты
 3. в других случаях находить последний полный бекап и создавать инкременты к нему
 4. можно добавить в логику два варианта проверки - с двумя полными и с одним полным бекапом.
+-c check
+-r remove backups
 
 
 Реализация.
@@ -32,3 +34,30 @@
 prepare делать автоматически?
 
 **********************************************************************************************************/
+#define FULLBACKUPS 2 // number of full backup
+#define INCRBACKUPS 14 // number of incremental backups
+int main(int agrc, char ** argv)
+{
+
+    char *help_message;
+    char oc;
+    help_message="Usage: %s [-c check backups]\n"
+                 "          [-r remove expired backups]\n";
+
+    while((oc=getopt(argc, argv, ":c:r:")) != -1)
+    {
+        switch (oc)
+        {
+          case  '?':
+              fprintf(stderr, help_message, argv[0]);
+              exit(1);
+
+          case 'r':
+          
+          case 'c':
+
+          default:
+              fprintf(stderr,%s,help_message);
+              exit(2);
+        }
+    }
