@@ -1,6 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<getopt.h>
+#include<unistd.h>
+#include<sys/types.h>
+#include<sys/stat.h>
 /****************************************************************************************************
 1. добавить функцию check_backups_dates
 2. исключить опции которые не понадобятся
@@ -37,12 +39,25 @@ prepare делать автоматически?
 #define FULLBACKUPS 2 // number of full backup
 #define INCRBACKUPS 14 // number of incremental backups
 
-int removebackups();
-int find_expires_backups(DIR);
+//struct dirent *readdir(DIR *dirp);
+
+int init_filelist()
+{
+    struct ...
+
+
+}
+
+
 
 int find_expires_backups(DIR *dir)
-{
+{   
+    errno=0; //set errno = 0
     
+    init_filelist();
+    readdir()
+    stat();
+    strcpy(  //copy to our struct    
 
 }
 
@@ -52,6 +67,7 @@ int main(int agrc, char ** argv)
     char *help_message;
     char oc;
     char path;
+    DIR *dir;
     path=calloc(10, sizeof(char));//dynamic allocation
     help_message="Usage: %s [-c check backups]\n"
                  "          [-r remove expired backups]\n"
