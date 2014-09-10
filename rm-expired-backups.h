@@ -3,25 +3,26 @@
 #include<unistd.h>
 #include<sys/types.h>
 #include<sys/stat.h>
-
-int removebackups(char *dirname);
-
-int find_expires_backups(DIR);
-int init_stack(void);
+#define ARRAY_SIZE 14
 
 struct __DirElement {
-    dname[256];
-    time_t mtime;
+    char *name; // name of file or dir
+    char *path; // path to file or dir
+    time_t mtime; // modification file
+    char type[2];//dir or file
 }
 
-typedef struct __DirElement DirElement;
-typedef DirElement stack_t;
+typedef struct __DirElement *DirElement;
 
-struct __Stack {
-    stack_t Element;
-    unsigned int q;
+
+struct filelist {
+    DirElement array*;
+    unsigned int size;
 }
-
-typedef __Stack Stack;
+typedef struct filelist* filelist;
+filelist createfilelist(void);
+int insertintofilelist(DirElement);
+int removefromfilelist(DirElement);
+void closefilelist(filelist);
 
 

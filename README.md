@@ -1,7 +1,7 @@
 rm-expired-backup
 =================
 
-utility for searching old(expired) backups and delete it
+utility for searching old(expired) backups and delete it and leave just freshest
 
 rm-expired-backup
 
