@@ -47,23 +47,29 @@ while()
 
 filelist createfilelist()
 {
-    DirElement el;
+    filelist fl;
 
-    if(el=(DirElement)malloc(sizeof(struct __DirElement) == NULL)
+    if(fl=(filelist)malloc(sizeof(struct filelist) == NULL)
         return NULL;
-    if((el->array=(DirElement)calloc(ARRAY_SIZE,sizeof(DirElement))) == NULL)
+    if((fl->array=(DirElement)calloc(ARRAY_SIZE,sizeof(DirElement))) == NULL)
         return NULL;
-    el->n=ARRAY_SIZE;
+    fl->n=ARRAY_SIZE;
 
-    return el;
+    return fl;
 }
 
-void closefilelist(filelist)
+void closefilelist(filelist fl)
 {
-    free(el->array);
-    free el;
+
+    free(fl->array);
+    free (fl);
+
     return;
 }
+
+
+
+
 int main(int agrc, char ** argv)
 {
 
