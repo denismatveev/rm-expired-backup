@@ -48,13 +48,22 @@ while()
 filelist createfilelist()
 {
     DirElement el;
-    el->array=(*DirElement)calloc(ARRAY_SIZE,sizeof(DirElement));
-    el->n=1;
+
+    if(el=(DirElement)malloc(sizeof(struct __DirElement) == NULL)
+        return NULL;
+    if((el->array=(DirElement)calloc(ARRAY_SIZE,sizeof(DirElement))) == NULL)
+        return NULL;
+    el->n=ARRAY_SIZE;
 
     return el;
 }
 
-
+void closefilelist(filelist)
+{
+    free(el->array);
+    free el;
+    return;
+}
 int main(int agrc, char ** argv)
 {
 
