@@ -1,3 +1,9 @@
+#include"filelist.h"
+/* A collection of functions for work with list of files and directories located at BACKUP dir
+
+
+*/
+
 filelist createfilelist(void)
 {
     filelist fl;

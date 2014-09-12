@@ -1,3 +1,5 @@
+#ifndef __FILELIST__
+#define __FILELIST__
 #include<stdio.h>
 #include<stdlib.h>
 #include<unistd.h>
@@ -29,4 +31,4 @@ filelist createfilelist(void);
 int insertintofilelist(const d_element_t, filelist);
 void closefilelist(filelist); // delete list and free the memory
 
-
+#endif
