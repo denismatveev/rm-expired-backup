@@ -9,7 +9,8 @@
 2. Создать структуру для хранения данных об элементе каталога
 3. Создать динамический массив для хранения стрктур из п.2, но только тех, которые не удовлетворяют условиям, что дата их создания внутри последних 14 дней
 4. удалить эти файлы или каталоги(которые в массиве)
-
+5. Добавить логгирование действий в syslog()
+6. Добавить ограничение на количество элементов(например, 100000)
 функции:
 init_filelist()
 inserintofilelist()
@@ -19,52 +20,12 @@ removefromfilelist()
 #define FULLBACKUPS 2 // number of full backup
 #define INCRBACKUPS 14 // number of incremental backups
 
-//struct dirent *readdir(DIR *dirp);
-
-
-filelist list;
 
 
 int scan_backupsdir_for_expired_files(char *dirname)
 {   
 
     
-    if(init_filelist() == 1)
-    {
-        perror(filelist);
-        exit(1);
-    }
-while()
-{
-    readdir()
-    stat();
-    if
-
-    strcpy(  //copy to our struct    
-}
-}
-
-
-filelist createfilelist()
-{
-    filelist fl;
-
-    if(fl=(filelist)malloc(sizeof(struct filelist) == NULL)
-        return NULL;
-    if((fl->array=(DirElement)calloc(ARRAY_SIZE,sizeof(DirElement))) == NULL)
-        return NULL;
-    fl->n=ARRAY_SIZE;
-
-    return fl;
-}
-
-void closefilelist(filelist fl)
-{
-
-    free(fl->array);
-    free (fl);
-
-    return;
 }
 
 
