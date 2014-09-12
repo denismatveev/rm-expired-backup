@@ -4,6 +4,8 @@
 
 */
 
+#define MAX_Q_EL 100000 //limit for a hundred thousand records
+
 filelist createfilelist(void)
 {
     filelist fl;
@@ -31,6 +33,8 @@ int insertintofilelist(const d_element_t de, filelist fl)
 {
     d_element_t *newel;
     
+    if(fl->q == MAX_Q_EL)
+        return 2;    
     if(fl->q < fl->size)
     {
         fl->array[(fl->q)++]=de;
@@ -40,10 +44,14 @@ int insertintofilelist(const d_element_t de, filelist fl)
     }
     else if(fl->q >= fl->size)
     {
-        if((newel=(d_element_t*)realloc(fl->array,(ARRAY_SIZE+DISCR)*sizeof(d_element_t) == NULL))
+        newel=(d_element_t*)realloc(fl->array,(ARRAY_SIZE+INCR)*sizeof(d_element_t));
+        if(newel == NULL)
             return 1;
-
-        fl->size=fl->size+DISCR;
+        
+        fl->size=fl->size+INCR;
+        fl->array[(fl->q)++]=de;
+         
+        return 0;
 
     }
     else return 1;

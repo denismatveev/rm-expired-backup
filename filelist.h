@@ -6,7 +6,7 @@
 #include<sys/types.h>
 #include<sys/stat.h>
 #define ARRAY_SIZE 14
-#define DISCR 5
+#define INCR 5
 enum __type {
     dir, 
     file

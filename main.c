@@ -12,7 +12,7 @@
 5. Добавить логгирование действий в syslog()
 6. Добавить ограничение на количество элементов(например, 100000)
 функции:
-init_filelist()
+createfilelist()
 inserintofilelist()
 removefromfilelist()
 
@@ -36,9 +36,8 @@ int main(int agrc, char ** argv)
 
     char *help_message;
     char oc;
-    char path;
+    char *path; //pointer to argv that contains path to backup dir
     DIR *dir;
-    path=calloc(10, sizeof(char));//dynamic allocation
     help_message="Usage: %s [-c check backups]\n"
                  "          [-r remove expired backups]\n"
                  "          [-f force. It works only with -r option\n]"
@@ -71,7 +70,6 @@ int main(int agrc, char ** argv)
         }
     }
 
-    free(path);
 
 
 }
