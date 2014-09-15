@@ -11,15 +11,14 @@ enum __type {
     dir, 
     file
 };
-typedef __type type; 
+typedef __type type_t; 
 struct __DirElement {
     char *name; // name of file or dir
     char *path; // path to file or dir
     time_t mtime; // modification file
-    unsigned short int type;//dir or file
-    unsigned short int id;
-    unsigned short int parent_id; //parent id; 0 
-    unsigned short int do_delete;
+    type_t el_type;//element type dir or file
+    d_element_t* parent_id; //parent id; NULL if no parent 
+    unsigned short int to_delete;
 };
 
 typedef struct __DirElement* d_element_t;
