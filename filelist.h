@@ -16,7 +16,10 @@ struct __DirElement {
     char *name; // name of file or dir
     char *path; // path to file or dir
     time_t mtime; // modification file
-    unsigned int type;//dir or file
+    unsigned short int type;//dir or file
+    unsigned short int id;
+    unsigned short int parent_id; //parent id; -1 if hasn't parent (a directory where backups store)
+    unsigned short int do_delete;
 };
 
 typedef struct __DirElement* d_element_t;
