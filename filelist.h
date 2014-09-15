@@ -18,7 +18,7 @@ struct __DirElement {
     time_t mtime; // modification file
     unsigned short int type;//dir or file
     unsigned short int id;
-    unsigned short int parent_id; //parent id; -1 if hasn't parent (a directory where backups store)
+    unsigned short int parent_id; //parent id; 0 
     unsigned short int do_delete;
 };
 
