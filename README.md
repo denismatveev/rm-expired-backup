@@ -5,12 +5,8 @@ utility for searching old(expired) backups and delete it and leave just the fres
 
 rm-expired-backup
 
-<<<<<<< HEAD
 --force(-f) - don't ask anything
-=======
---force - don't ask anything
 
->>>>>>> d5bf1e0c48c9270df42450e7016533203b5ea17a
 --max-increments (-i)
 
 --max-full-backups (-fb)
@@ -23,7 +19,6 @@ rm-expired-backup
 
 -- some option
 
-<<<<<<< HEAD
 dir-dir-files
 files 
     ibdata*
@@ -33,6 +28,4 @@ files
     если что-то другое - значит это не бекап
 
 Сканируем директорию, получаем массив объектов, проверяем содержимое файлов и принимаем решение об удалении.
-=======
 
->>>>>>> d5bf1e0c48c9270df42450e7016533203b5ea17a
