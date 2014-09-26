@@ -1,18 +1,29 @@
 rm-expired-backup
 =================
 
-utility for searching old(expired) backups and delete it and leave just freshest
+utility for searching old(expired) backups and delete it and leave just the freshest
 
 rm-expired-backup
 
+<<<<<<< HEAD
 --force(-f) - don't ask anything
+=======
+--force - don't ask anything
+
+>>>>>>> d5bf1e0c48c9270df42450e7016533203b5ea17a
 --max-increments (-i)
+
 --max-full-backups (-fb)
---path-to-backups (-p) - specify path to directory with backups. Suppose full backups and incremental backups are located at the same directory 
+
+--path-to-backups (-p) - specify path to a directory with backups. Suppose full backups and incremental backups are located at the same directory 
+
 --help (-h) - prints help message
---log (-l) path to file with logs.logs write via syslogd
+
+--log (-l) write logs.logs write via syslogd
+
 -- some option
 
+<<<<<<< HEAD
 dir-dir-files
 files 
     ibdata*
@@ -22,3 +33,6 @@ files
     если что-то другое - значит это не бекап
 
 Сканируем директорию, получаем массив объектов, проверяем содержимое файлов и принимаем решение об удалении.
+=======
+
+>>>>>>> d5bf1e0c48c9270df42450e7016533203b5ea17a
