@@ -7,6 +7,7 @@
 #include<sys/stat.h>
 #define ARRAY_SIZE 14
 #define INCR 5
+#define DEPTH 3
 enum __type {
     dir, 
     file
