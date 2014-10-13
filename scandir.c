@@ -3,7 +3,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include "filelist.h"
-
+#define MAXDEPTH 1000
 int scandir(int*, const char*);
 int *n;// number of elements in a directory
 
