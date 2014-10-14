@@ -10,9 +10,9 @@ filelist createfilelist(void)
 {
     filelist fl;
 
-    if(fl=(filelist)malloc(sizeof(struct filelist) == NULL)
+    if((fl=(filelist)malloc(sizeof(filelist))) == NULL)
         return NULL;
-    if((fl->array=(d_element_t)calloc(ARRAY_SIZE,sizeof(d_element_t))) == NULL)
+    if((fl->array=(d_element_t*)calloc(ARRAY_SIZE,sizeof(d_element_t))) == NULL)
         return NULL;
     fl->size=ARRAY_SIZE; //size of an array of structures d_element_t
     fl->q=0; //current number of elements

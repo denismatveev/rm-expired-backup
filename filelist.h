@@ -5,27 +5,26 @@
 #include<unistd.h>
 #include<sys/types.h>
 #include<sys/stat.h>
-#define ARRAY_SIZE 14
+#define ARRAY_SIZE 14 //initial size of an array
 #define INCR 5
-#define DEPTH 3
 enum __type {
     dir, 
     file
 };
-typedef __type type_t; 
+typedef enum __type type_t;
 struct __DirElement {
     char *name; // name of file or dir
     char *path; // path to file or dir
     time_t mtime; // modification file
     type_t el_type;//element type dir or file
-    d_element_t* parent_id; //parent id; NULL if no parent 
+//    d_element_t parent_id; //parent id; NULL if no parent 
     unsigned short int to_delete;
 };
 
 typedef struct __DirElement* d_element_t;
 
 struct __filelist {
-    d_element_t array*;
+    d_element_t *array;
     unsigned int size;
     unsigned int q;
 };
