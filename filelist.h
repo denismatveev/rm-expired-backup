@@ -17,7 +17,7 @@ struct __DirElement {
     char *path; // path to file or dir
     time_t mtime; // modification file
     type_t el_type;//element type dir or file
-//    d_element_t parent_id; //parent id; NULL if no parent 
+    struct __DirElement *parent_id; //parent id; NULL if no parent 
     unsigned short int to_delete;
 };
 

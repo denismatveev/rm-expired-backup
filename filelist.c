@@ -1,8 +1,5 @@
 #include"filelist.h"
-/* A collection of functions for work with list of files and directories located at BACKUP dir
-
-
-*/
+/* A collection of functions for building list of files and directories */
 
 #define MAX_Q_EL 100000 //limit for a hundred thousand records
 
@@ -33,7 +30,7 @@ int insertintofilelist(const d_element_t de, filelist fl)
 {
     d_element_t *newel;
     
-    if(fl->q == MAX_Q_EL)
+    if(fl->q >= MAX_Q_EL)
         return 2;    
     if(fl->q < fl->size)
     {
