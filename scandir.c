@@ -6,26 +6,24 @@
 int scandir(filelist*, const char*);
 
 
-
-
 int scandir(filelist *fl, const char *path)
 {
     DIR *fd;
     char *path;
     struct dirent  *entry;
     struct stat *st;
-  
-   /* opening the directory */ 
+
+   /* opening the directory */
     if((fd=opendir(path)) == NULL)
     {
         perror(path);
         return 1;
     }
-    /* reading contetnts of the directory and filling the filelist */
+    /* reading contents of the directory and filling the filelist */
     while((entry=readdir(fd)) != NULL)
     {
       insertintofilelist(,fl)
-      
+
       if(stat(dirent->d_name,st) == -1)
       {
           perror(dirent->d_name);
@@ -38,7 +36,7 @@ int scandir(filelist *fl, const char *path)
          dir_element->el_type=1;
     else return -1;
 
-    
+
 
 
 // closing all opend resources
@@ -52,5 +50,5 @@ int scandir(filelist *fl, const char *path)
 
     return 0;
 }
-   
+
 
