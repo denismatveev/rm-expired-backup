@@ -3,16 +3,15 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include "filelist.h"
-int scandir(filelist*, const char*);
 
+int scandir(filelist*, const char*);
 
 int scandir(filelist *fl, const char *path)
 {
     DIR *fd;
-    char *path;
     struct dirent  *entry;
     struct stat *st;
-
+    d_element_t de;
    /* opening the directory */
     if((fd=opendir(path)) == NULL)
     {
@@ -22,6 +21,12 @@ int scandir(filelist *fl, const char *path)
     /* reading contents of the directory and filling the filelist */
     while((entry=readdir(fd)) != NULL)
     {
+      de->name=
+      de->path
+      de->mtime
+      de->el_type;
+      de->parent_id
+      de->to_delete
       insertintofilelist(,fl)
 
       if(stat(dirent->d_name,st) == -1)
@@ -35,14 +40,6 @@ int scandir(filelist *fl, const char *path)
      else if(S_ISREG(st->st_mode))
          dir_element->el_type=1;
     else return -1;
-
-
-
-
-// closing all opend resources
-    free(path);
-    closefilelist(fl);
-
 
     }
 

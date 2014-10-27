@@ -8,7 +8,7 @@
 #define ARRAY_SIZE 14 //initial size of an array
 #define INCR 5
 enum __type {
-    dir, 
+    dir,
     file
 };
 typedef enum __type type_t;
@@ -17,8 +17,8 @@ struct __DirElement {
     char *path; // path to file or dir
     time_t mtime; // modification file
     type_t el_type;//element type dir or file
-    struct __DirElement *parent_id; //parent id; NULL if no parent 
-    unsigned short int to_delete;
+    struct __DirElement *parent_id; //parent id; NULL if no parent
+    unsigned short int to_delete; //flag if element marked to delete
 };
 
 typedef struct __DirElement* d_element_t;
