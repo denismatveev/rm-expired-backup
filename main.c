@@ -21,16 +21,6 @@ removefromfilelist()
 #define INCRBACKUPS 14 // number of incremental backups
 
 
-
-int scan_backupsdir_for_expired_files(char *dirname)
-{   
-
-    
-}
-
-
-
-
 int main(int agrc, char ** argv)
 {
 
@@ -42,7 +32,7 @@ int main(int agrc, char ** argv)
                  "          [-r remove expired backups]\n"
                  "          [-f force. It works only with -r option\n]"
                  "          [-p path to directory where backups store\n]";
-    
+
     while((oc=getopt(argc, argv, ":crf:h")) != -1)
     {
         switch (oc)
@@ -54,15 +44,15 @@ int main(int agrc, char ** argv)
                 path=opt
 
           case 'r':
-                
+
                 chdir("")
                 find_expires_backups(dir)
-                removebackups();          
+                removebackups();
           case 'c':
                 find_expires_backups(dir);
           case 'f':
           case ':':
-            fprintf(stderr, "Option -%c requires an argument\n",optopt); 
+            fprintf(stderr, "Option -%c requires an argument\n",optopt);
             exit(1);
           default:
               fprintf(stderr,%s,help_message);
