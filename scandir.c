@@ -1,8 +1,8 @@
-#include <sys/types.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include "filelist.h"
+#include<sys/types.h>
+#include<dirent.h>
+#include<sys/stat.h>
+#include<unistd.h>
+#include"filelist.h"
 #include<string.h>
 
 int myscandir(filelist, const char*);
@@ -23,7 +23,6 @@ int myscandir(filelist fl, const char *path)
         perror(path);
         return 1;
     }
-    chdir("path"); // going to dir
 
     /* reading contents of the directory and filling the filelist */
     while((entry=readdir(fd)) != NULL)
@@ -50,6 +49,9 @@ int myscandir(filelist fl, const char *path)
         }
 
         strcpy(de->path,path);
+        strcat(de->path,"/"); // adding a trailing slash
+        strcat(de->path,de->name); //concatenate strings path + name
+
         de->mtime=st->st_mtime; //modification time
 
         de->parent_id=NULL; // default NULL. Will be filled at recursivepath() function
