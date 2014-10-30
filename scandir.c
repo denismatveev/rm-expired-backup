@@ -54,7 +54,7 @@ int myscandir(filelist fl, const char *path)
 
         de->mtime=st->st_mtime; //modification time
 
-        de->parent_id=NULL; // default NULL. Will be filled at recursivepath() function
+        de->parent_id=NULL; // default NULL. Will be filled at recursivepass() function
         de->to_delete=0; // default value is not to delete; Will be changed at moment of analysis
         insertintofilelist(de,fl);
     }
