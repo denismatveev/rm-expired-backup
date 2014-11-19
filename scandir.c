@@ -13,7 +13,6 @@ int myscandir(filelist fl, const char *path)
     struct dirent *entry;
     struct stat *st;
 
-    d_element_t de;
 
     /* opening the directory */
     if(strlen(path) > 1024)
@@ -27,6 +26,8 @@ int myscandir(filelist fl, const char *path)
     /* reading contents of the directory and filling the filelist */
     while((entry=readdir(fd)) != NULL)
     {
+        d_element_t de;
+
         if(stat(entry->d_name,st) == -1)
         {
             perror(entry->d_name);
