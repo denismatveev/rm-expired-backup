@@ -4,6 +4,33 @@
 #include<unistd.h>
 #include"filelist.h"
 #include<string.h>
+/*
+
+Possible filenames at an incremental backup dir:
+
+ibdata1.delta
+ibdata1.meta
+ibdata2.delta
+ibdata2.meta
+
+digits in the general case may vary. At a current moment files present only ibdata1 and ibdata2
+
+mysql-incr-[1][0-4].tar.gz
+xtrabackup_checkpoints
+xtrabackup_logfile
+
+Possible filenames at a full backup dir are:
+
+ibdata1
+ibdata2
+mysql-0.tar.gz
+xtrabackup_checkpoints
+xtrabackup_logfile
+
+The best idea is to use conf file with a list of filenames. It is TODO.
+Catalogs have got names like this 20141104-2000-0; date-time-number as YYYYMMDD-HHMM-N
+
+*/
 
 int myscandir(filelist, const char*);
 
@@ -16,7 +43,10 @@ int myscandir(filelist fl, const char *path)
 
     /* opening the directory */
     if(strlen(path) > 1024)
+    {
+        fprintf(stderr, "Filename is too long...\n"); // in perspective will be done dynamic length and writing to logfile
         return 2;
+    }
     if((fd=opendir(path)) == NULL)
     {
         perror(path);
@@ -28,14 +58,14 @@ int myscandir(filelist fl, const char *path)
     {
         d_element_t de;
 
-        if(stat(entry->d_name,st) == -1)
+        if((stat(entry->d_name,st)) == -1)
         {
             perror(entry->d_name);
 
             return 1;
         }
 
-        strcpy(de->name,entry->d_name); // copy name of directory
+        strcpy(de->name,entry->d_name); // copy name of directory from entry->d_name to de->name
 
         switch(st->st_mode)
         {
@@ -57,7 +87,7 @@ int myscandir(filelist fl, const char *path)
 
         de->parent_id=NULL; // default NULL. Will be filled at recursivepass() function
         de->to_delete=0; // default value is not to delete; Will be changed at moment of analysis
-        insertintofilelist(de,fl);
+        insertintofilelist(de,fl); //inserting into filelist array
     }
 
     closedir(fd);

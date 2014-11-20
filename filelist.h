@@ -13,8 +13,8 @@ enum __type {
 };
 typedef enum __type type_t;
 struct __DirElement {
-    char name[256]; // name of file or dir
-    char path[1024]; // path to file or dir
+    //char name[256]; // name of file or dir
+    char fullpath[1024]; // path to file or dir
     time_t mtime; // modification file
     type_t el_type;//element type dir or file
     struct __DirElement *parent_id; //parent id; NULL if no parent
