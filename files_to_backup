@@ -1,0 +1,14 @@
+//files to be backuped
+
+//full
+ibdata1
+ibdata2
+mysql-0.tar.gz
+xtrabackup_checkpoints
+xtrabackup_logfile
+
+//incremental
+
+mysql-incr-[1][0-4].tar.gz
+xtrabackup_checkpoints
+xtrabackup_logfile

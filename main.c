@@ -3,6 +3,8 @@
 #include<unistd.h>
 #include<sys/types.h>
 #include<sys/stat.h>
+#include"filelist.h"
+
 /****************************************************************************************************
 
 1. считать кол-во файлов в каталоге (n) done
@@ -31,12 +33,33 @@ int main(int agrc, char ** argv)
     char *help_message;
     char oc;
     char *path; //pointer to argv that contains path to backup dir
-    DIR *dir;
+//    DIR *dir;
     help_message="Usage: %s [-c check backups]\n"
                  "          [-r remove expired backups]\n"
                  "          [-f force. It works only with -r option\n]"
                  "          [-p path to directory where backups store\n]";
+    path="/";
+    filelist a;
+    int i;
+    a=createfilelist(); 
 
+    if(!myscandir(a,path))
+{
+	WriteLog("got error");
+	exit(1);
+}
+
+    for(i=0;i < a->size; i++)
+    	fprintf(stdout,"entry name #","%i ",i,"%s\n",a->array->fullpath);
+
+	
+    
+
+
+
+    closefilelist(a);
+
+/*
     while((oc=getopt(argc, argv, ":crf:h")) != -1)
     {
         switch (oc)
@@ -52,6 +75,7 @@ int main(int agrc, char ** argv)
                 chdir("")
                 find_expires_backups(dir)
                 removebackups();
+
           case 'c':
                 find_expires_backups(dir);
           case 'f':
@@ -64,6 +88,6 @@ int main(int agrc, char ** argv)
         }
     }
 
-
+*/
 
 }

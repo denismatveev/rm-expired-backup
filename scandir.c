@@ -4,6 +4,8 @@
 #include<unistd.h>
 #include"filelist.h"
 #include<string.h>
+#include<stdio.h>
+#include<syslog.h>
 /*
 
 Possible filenames at an incremental backup dir:
@@ -13,7 +15,7 @@ ibdata1.meta
 ibdata2.delta
 ibdata2.meta
 
-digits in the general case may vary. At a current moment files present only ibdata1 and ibdata2
+digits in the general case may vary. At the current moment files present only ibdata1 and ibdata2
 
 mysql-incr-[1][0-4].tar.gz
 xtrabackup_checkpoints
@@ -31,8 +33,23 @@ The best idea is to use conf file with a list of filenames. It is TODO.
 Catalogs have got names like this 20141104-2000-0; date-time-number as YYYYMMDD-HHMM-N
 
 */
-
+int WriteLog(const char*);
 int myscandir(filelist, const char*);
+
+
+
+int WriteLog(const char *message)
+{
+
+    openlog(NULL,LOG_CONS | LOG_PERROR , LOG_LOCAL0);
+    syslog(LOG_LOCAL0 | LOG_ERR, "%s",message);
+
+    closelog();
+
+    return 0;
+}
+
+
 
 int myscandir(filelist fl, const char *path)
 {
@@ -40,12 +57,10 @@ int myscandir(filelist fl, const char *path)
     struct dirent *entry;
     struct stat *st;
 
-
-    /* opening the directory */
-    if(strlen(path) > 1024)
+    if((strlen(path) > L_NAME))
     {
-        fprintf(stderr, "Filename is too long...\n"); // in perspective will be done dynamic length and writing to logfile
-        return 2;
+        WriteLog("scan_dir: path is too long");
+        return -1;
     }
     if((fd=opendir(path)) == NULL)
     {
@@ -65,7 +80,6 @@ int myscandir(filelist fl, const char *path)
             return 1;
         }
 
-        strcpy(de->name,entry->d_name); // copy name of directory from entry->d_name to de->name
 
         switch(st->st_mode)
         {
@@ -79,9 +93,9 @@ int myscandir(filelist fl, const char *path)
             return -1;
         }
 
-        strcpy(de->path,path);
-        strcat(de->path,"/"); // adding a trailing slash
-        strcat(de->path,de->name); //concatenate strings path + name
+        strcpy(de->fullpath,path);
+        strcat(de->fullpath,"/"); // adding a trailing slash
+        strcat(de->fullpath,entry->d_name); //concatenate strings path + name
 
         de->mtime=st->st_mtime; //modification time
 

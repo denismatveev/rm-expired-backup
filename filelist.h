@@ -7,6 +7,7 @@
 #include<sys/stat.h>
 #define ARRAY_SIZE 14 //initial size of an array
 #define INCR 5
+#define L_NAME 512
 enum __type {
     dir,
     file
@@ -14,10 +15,11 @@ enum __type {
 typedef enum __type type_t;
 struct __DirElement {
     //char name[256]; // name of file or dir
-    char fullpath[1024]; // path to file or dir
-    time_t mtime; // modification file
+    char fullpath[L_NAME]; // path to file or dir; how to create dynamic size? probably it is possible to add another function create_d_element_t(int size);
+    // fullpath; // full path to element beginning from root(/) of filesystem
+    time_t mtime; // modification time of file
     type_t el_type;//element type dir or file
-    struct __DirElement *parent_id; //parent id; NULL if no parent
+    struct __DirElement *parent_id; //parent id; NULL if no parent or it is a directory
     unsigned short int to_delete; //flag if element marked to delete
 };
 
@@ -26,7 +28,7 @@ typedef struct __DirElement* d_element_t;
 struct __filelist {
     d_element_t *array;
     unsigned int size;
-    unsigned int q;
+    unsigned int q;//current number of elements
 };
 typedef struct __filelist* filelist;
 filelist createfilelist(void);
