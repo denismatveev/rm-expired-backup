@@ -96,7 +96,7 @@ int myscandir(filelist fl, const char *path)
         strcpy(de->fullpath,path);
         strcat(de->fullpath,"/"); // adding a trailing slash
         strcat(de->fullpath,entry->d_name); //concatenate strings path + name
-
+	strcat(de->fullpath,"\0"); //null terminated string
         de->mtime=st->st_mtime; //modification time
 
         de->parent_id=NULL; // default NULL. Will be filled at recursivepass() function
