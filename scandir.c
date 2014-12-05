@@ -37,7 +37,7 @@ int myscandir(filelist fl, const char *path)
 {
     DIR *fd;
     struct dirent *entry;
-    struct stat *st;
+    struct stat st;
     d_element_t de;// also pointer to struct
 
     if((strlen(path) > L_NAME))
@@ -55,7 +55,7 @@ int myscandir(filelist fl, const char *path)
     while((entry=readdir(fd)) != NULL)
     {
 
-        if((stat(entry->d_name,st)) == -1)
+        if((stat(entry->d_name,&st)) == -1)
         {
             perror(entry->d_name);
 
@@ -63,7 +63,7 @@ int myscandir(filelist fl, const char *path)
         }
 
 
-        switch(st->st_mode)
+        switch(st.st_mode)
         {
         case S_IFDIR:
             de->el_type=dir;
@@ -79,7 +79,7 @@ int myscandir(filelist fl, const char *path)
         strcat(de->fullpath,"/"); // adding a trailing slash
         strcat(de->fullpath,entry->d_name); //concatenate strings path + name
 	strcat(de->fullpath,"\0"); //null terminated string
-        de->mtime=st->st_mtime; //modification time
+        de->mtime=st.st_mtime; //modification time
 
         de->parent_id=NULL; // default NULL. Will be filled at recursivepass() function
         de->to_delete=0; // default value is not to delete; Will be changed at moment of analysis

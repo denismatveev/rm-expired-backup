@@ -4,7 +4,8 @@ CFLAGS=-Wno-unused-result -O3
 SOURCES=filelist.c writelog.c recursivepass.c scandir.c main.c
 EXEC=rm_expired 
 OBJECTS=$(SOURCES:.c=.o)
-all:$(EXEC) $(SOURCES)
+all:$(EXEC) 
+
 filelist:filelist.c filelist.h 
 	$(CC) $(CFLAGS) filelist.c -c -I. -o filelist.o
 scandir:scandir.c 
@@ -14,8 +15,7 @@ recursivepass:recursivepass.c
 writelog:writelog.c 
 	$(CC) $(CFLAGS) writelog.c -I. -c -o writelog.o
 $(EXEC):$(SOURCES) 
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(EXEC)
-	rm -rf $(OBJECTS)
+	$(CC) $(CFLAGS) $(SOURCES) -o $(EXEC)
 .PHONY:	clean
 clean:
 	-rm -rf $(EXEC) $(OBJECTS)
