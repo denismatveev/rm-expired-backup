@@ -50,9 +50,7 @@ int main(int agrc, char ** argv)
 }
 
     for(i=0;i < a->size; i++)
-    	fprintf(stdout,"entry name #","%i ",i,"%s\n",a->array[i]->fullpath);
-
-	
+    	printf("%s%i %s\n","entry name #",i,a->array[i]->fullpath);
     
 
 

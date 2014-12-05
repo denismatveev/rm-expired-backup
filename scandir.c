@@ -5,7 +5,7 @@
 #include"filelist.h"
 #include<string.h>
 #include<stdio.h>
-#include<syslog.h>
+#include"writelog.h"
 /*
 
 Possible filenames at an incremental backup dir:
@@ -33,24 +33,7 @@ The best idea is to use conf file with a list of filenames. It is TODO.
 Catalogs have got names like this 20141104-2000-0; date-time-number as YYYYMMDD-HHMM-N
 
 */
-int WriteLog(const char*);
 int myscandir(filelist, const char*);
-
-
-
-int WriteLog(const char *message)
-{
-
-    openlog(NULL,LOG_CONS | LOG_PERROR , LOG_LOCAL0);
-    syslog(LOG_LOCAL0 | LOG_ERR, "%s",message);
-
-    closelog();
-
-    return 0;
-}
-
-
-
 int myscandir(filelist fl, const char *path)
 {
     DIR *fd;
