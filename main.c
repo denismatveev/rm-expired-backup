@@ -33,21 +33,21 @@ int main(int agrc, char ** argv)
     char *help_message;
     char oc;
     char *path; //pointer to argv that contains path to backup dir
+    int i;
+    filelist a;
+
 //    DIR *dir;
     help_message="Usage: %s [-c check backups]\n"
                  "          [-r remove expired backups]\n"
                  "          [-f force. It works only with -r option\n]"
                  "          [-p path to directory where backups store\n]";
-    path="/";
-    filelist a;
-    int i;
     a=createfilelist(); 
 
-    if(!myscandir(a,path))
-{
-	WriteLog("got error");
-	exit(1);
-}
+    if(!myscandir(a,"."))
+    {
+        WriteLog("got error");
+        exit(1);
+    }
 
     for(i=0;i < a->size; i++)
     	printf("%s%i %s\n","entry name #",i,a->array[i]->fullpath);
