@@ -38,7 +38,7 @@ int myscandir(filelist fl, const char *path)
     DIR *fd;
     struct dirent *entry;
     struct stat st;
-    d_element_t de;// also pointer to struct
+//    d_element_t de;
 
     if((strlen(path) > L_NAME))
     {
@@ -54,6 +54,8 @@ int myscandir(filelist fl, const char *path)
     /* reading contents of the directory and filling the filelist */
     while((entry=readdir(fd)) != NULL)
     {
+        
+    d_element_t de;
 
         if((stat(entry->d_name,&st)) == -1)
         {

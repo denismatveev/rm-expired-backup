@@ -15,7 +15,7 @@ enum __type {
 typedef enum __type type_t;
 struct __DirElement {
     //char name[256]; // name of file or dir
-    char fullpath[L_NAME]; // path to file or dir; how to create dynamic size? probably it is possible to add another function create_d_element_t(int size);
+    char fullpath[L_NAME]; // path to file or dir; 
     // fullpath; // full path to element beginning from root(/) of filesystem
     time_t mtime; // modification time of file
     type_t el_type;//element type dir or file
