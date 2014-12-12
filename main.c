@@ -34,58 +34,61 @@ int main(int agrc, char ** argv)
     char oc;
     char *path; //pointer to argv that contains path to backup dir
     int i;
-    filelist a;
+    filelist fl;
 
 //    DIR *dir;
     help_message="Usage: %s [-c check backups]\n"
                  "          [-r remove expired backups]\n"
                  "          [-f force. It works only with -r option\n]"
                  "          [-p path to directory where backups store\n]";
-    a=createfilelist(); 
+    fl=createfilelist();
 
-    if(!myscandir(a,"."))
+    if(!myscandir(fl,"."))
     {
         WriteLog("got error");
         exit(1);
     }
 
-    for(i=0;i < a->size; i++)
-    	printf("%s%i %s\n","entry name #",i,a->array[i]->fullpath);
-    
+//getcwd()
+
+    for(i=0; i < fl->size; i++)
+        printf("%s%i %s\n","entry name #",i,fl->array[i]->fullpath);
 
 
 
-    closefilelist(a);
 
-/*
-    while((oc=getopt(argc, argv, ":crf:h")) != -1)
-    {
-        switch (oc)
+    closefilelist(fl);
+
+    /*
+        while((oc=getopt(argc, argv, ":crf:h")) != -1)
         {
-          case  '?':
-              fprintf(stderr, help_message, argv[0]);
-              exit(1);
-          case 'p':
-                path=opt
+            switch (oc)
+            {
+              case  '?':
+                  fprintf(stderr, help_message, argv[0]);
+                  exit(1);
+              case 'p':
+                    path=opt
 
-          case 'r':
+              case 'r':
 
-                chdir("")
-                find_expires_backups(dir)
-                removebackups();
+                    chdir("")
+                    find_expires_backups(dir)
+                    removebackups();
 
-          case 'c':
-                find_expires_backups(dir);
-          case 'f':
-          case ':':
-            fprintf(stderr, "Option -%c requires an argument\n",optopt);
-            exit(1);
-          default:
-              fprintf(stderr,%s,help_message);
-              exit(2);
+              case 'c':
+                    find_expires_backups(dir);
+              case 'f':
+              case ':':
+                fprintf(stderr, "Option -%c requires an argument\n",optopt);
+                exit(1);
+              default:
+                  fprintf(stderr,%s,help_message);
+                  exit(2);
+            }
         }
-    }
 
-*/
+    */
 
+    return 0;
 }
