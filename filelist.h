@@ -1,3 +1,10 @@
+/***************************************************************************
+ *            filelist.h
+ *
+ *  Пн. Декабрь 15 15:18:28 2014
+ *  Copyright  2014  denis matveev
+ *  <denis@ilmen-tau.ru>
+ ****************************************************************************/
 #ifndef __FILELIST__
 #define __FILELIST__
 #include<stdio.h>
@@ -7,23 +14,27 @@
 #include<sys/stat.h>
 #define ARRAY_SIZE 14 //initial size of an array
 #define INCR 5
-#define L_NAME 512
+#define L_NAME 1024
+#define  EXIT_SUCCESS 0
+
 enum __type {
     dir,
     file
 };
-typedef enum __type type_t;
+typedef enum __type* type_t;
 struct __DirElement {
     //char name[256]; // name of file or dir
     char fullpath[L_NAME]; // path to file or dir; 
-    // fullpath; // full path to element beginning from root(/) of filesystem
+    //fullpath*; // full path to element beginning from root(/) of filesystem
     time_t mtime; // modification time of file
-    type_t el_type;//element type dir or file
-    struct __DirElement *parent_id; //parent id; NULL if no parent or it is a directory
+    unsigned short int el_type;//element type dir or file
+	struct  __DirElement *parent_id; //parent id; NULL if no parent or it is a directory
     unsigned short int to_delete; //flag if element marked to delete
 };
 
-typedef struct __DirElement* d_element_t;
+typedef struct __DirElement d_element;
+typedef d_element* d_element_t;
+
 
 struct __filelist {
     d_element_t *array;
@@ -36,3 +47,6 @@ int insertintofilelist(const d_element_t, filelist);
 void closefilelist(filelist); // delete list and free the memory
 
 #endif
+
+
+

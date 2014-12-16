@@ -30,7 +30,7 @@ xtrabackup_logfile
 
 The best idea is to use conf file with a list of filenames. It is TODO.
 Catalogs have got names like this 20141104-2000-0; date-time-number as YYYYMMDD-HHMM-N
-
+fnmatch - match filename or pathname
 */
 int myscandir(filelist, const char*);
 int myscandir(filelist fl, const char *path)
@@ -38,8 +38,11 @@ int myscandir(filelist fl, const char *path)
     DIR *fd;
     struct dirent *entry;
     struct stat st;
-//    d_element_t de;
-
+	char currentdir[L_NAME];
+	char st_entry[L_NAME];
+	
+	
+	
     if((strlen(path) > L_NAME))
     {
         WriteLog("scan_dir: path is too long");
@@ -48,47 +51,65 @@ int myscandir(filelist fl, const char *path)
     if((fd=opendir(path)) == NULL)
     {
         perror(path);
-        return 1;
+        return -1;
     }
 
+	if((getcwd(currentdir,1024)) == NULL)
+	{
+		WriteLog("Can't change dir back");
+		exit(EXIT_FAILURE);
+	}
+
+	
+    if(((chdir(path)) < 0))
+       {
+		   WriteLog("Can't change directory");
+		   exit(EXIT_FAILURE);
+	   }
     /* reading contents of the directory and filling the filelist */
+	rewinddir(fd);
     while((entry=readdir(fd)) != NULL)
     {
-        
-    d_element_t de;
-
-        if((stat(entry->d_name,&st)) == -1)
+		d_element_t de;
+       strcpy(st_entry,entry->d_name);
+			
+        if((stat(st_entry, &st) == -1))
         {
             perror(entry->d_name);
 
-            return 1;
-        }
-
-
-        switch(st.st_mode)
-        {
-        case S_IFDIR:
-            de->el_type=dir;
-            break;
-        case S_IFREG:
-            de->el_type=file;
-            break;
-        default:
             return -1;
         }
 
-        strcpy(de->fullpath,path);
-        strcat(de->fullpath,"/"); // adding a trailing slash
+
+/*        switch(st.st_mode & S_IFMT)
+        {
+        case S_IFDIR:
+            de->el_type=0;
+				break;
+        case S_IFREG:
+            de->el_type=1;
+			break;
+        default:
+            return -1;
+				
+        }*/
+       
+       strcpy(de->fullpath,path);
+		
+//        strcat(de->fullpath,"/"); // adding a trailing slash
         strcat(de->fullpath,entry->d_name); //concatenate strings path + name
-	strcat(de->fullpath,"\0"); //null terminated string
+        strcat(de->fullpath,"\0"); //null terminated string
         de->mtime=st.st_mtime; //modification time
 
         de->parent_id=NULL; // default NULL. Will be filled at recursivepass() function
         de->to_delete=0; // default value is not to delete; Will be changed at moment of analysis
+		
         insertintofilelist(de,fl); //inserting into filelist array
     }
 
     closedir(fd);
-
+     //  free(currentdir);
+     chdir(currentdir);
+	
     return 0;
 }
