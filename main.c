@@ -2,17 +2,17 @@
 /*
  * main.c
  * Copyright (C) 2014 denis matveev <denis@ilmen-tau.ru>
- * 
+ *
  * removebackups is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * removebackups is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -52,25 +52,25 @@ int main(int agrc, char ** argv)
     char *help_message;
     char oc;
     char *path; //pointer to argv that contains path to backup dir
-    int i;
+    unsigned int i;
     filelist fl;
 
-//    DIR *dir;
+    //    DIR *dir;
     help_message="Usage: %s [-c check backups]\n"
                  "          [-r remove expired backups]\n"
                  "          [-f force. It works only with -r option\n]"
                  "          [-p path to directory where backups store\n]";
     fl=createfilelist();
 
-    if(myscandir(fl,"/home/"))
+    if((myscandir(fl,"/home/denis/test")))
     {
         WriteLog("got error");
-		
+
         exit(1);
     }
 
-    for(i=0; i < fl->size; i++)
-      printf("%s%i %s\n","entry name #",i,fl->array[i]->fullpath);
+    for(i=0; i < fl->q; i++)
+        printf("%s%i %s\n","entry name #",i,fl->array[i]->fullpath);
 
 
 

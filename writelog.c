@@ -1,12 +1,13 @@
 #include<stdio.h>
 #include<syslog.h>
+#include"writelog.h"
 /*
     file  writelog.c is wrapper to syslog;
     writes logs to syslog's local0
 
 */
 
-int WriteLog(const char*);
+
 int WriteLog(const char *message)
 {
 
