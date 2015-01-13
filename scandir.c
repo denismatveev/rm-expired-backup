@@ -106,10 +106,7 @@ int myscandir(filelist fl, const char *path)
             return 1;
 
         strcat(de->fullpath,entry->d_name); //concatenate strings path + name
-
-        //strcat(de->fullpath,"\0"); //null terminated string
         de->mtime=st.st_mtime; //modification time
-
         de->parent_id=NULL; // default NULL. Will be filled at recursivepass() function
         de->to_delete=0; // default value is not to delete; Will be changed at moment of analysis
 
@@ -118,7 +115,7 @@ int myscandir(filelist fl, const char *path)
     }
 
     closedir(fd);
-    chdir(currentdir);
+    chdir(currentdir); //returning back to the directory where program was started
     free(currentdir);
 
 
