@@ -2,7 +2,7 @@
 CC=gcc 
 CFLAGS=-Wno-unused-result -O3 
 SOURCES=filelist.c writelog.c recursivepass.c scandir.c main.c
-EXEC=delexpbkps
+EXEC=delbkps
 OBJECTS=$(SOURCES:.c=.o)
 all:$(EXEC) 
 
