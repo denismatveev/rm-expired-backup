@@ -33,7 +33,7 @@ void closefilelist(filelist fl)
 
 int insertintofilelist(filelist fl, const d_element_t de)
 {
-    d_element_t newel;
+    d_element_t *newarr;
     
     if(fl->q >= MAX_Q_EL)
         return 1;
@@ -46,10 +46,11 @@ int insertintofilelist(filelist fl, const d_element_t de)
     }
     else if(fl->q >= fl->size)
     {
-        if((newel=(d_element_t)realloc(fl->array,(ARRAY_SIZE+INCR)*sizeof(__DirElement))) == NULL)
+        if((newarr=(d_element_t*)realloc(fl->array,(fl->size+ARRAY_SIZE)*sizeof(__DirElement))) == NULL)
             return  ALLOCATION_ERROR;
-        
-        fl->size=fl->size+INCR;
+        fl->array=newarr;
+
+        fl->size+=ARRAY_SIZE;
         fl->array[(fl->q)++]=de;
 
         return 0;

@@ -13,14 +13,14 @@
 #include<sys/types.h>
 #include<sys/stat.h>
 #define ARRAY_SIZE 14 //initial size of an array
-#define INCR 5
 #define L_NAME 1024
 #define  EXIT_SUCCESS 0
 #define ALLOCATION_ERROR 2
 
 enum __type {
     dir,
-    file
+    file,
+    other
 };
 typedef enum __type* type_t;
 

@@ -46,7 +46,7 @@ removefromfilelist()
 #define INCRBACKUPS 14 // number of incremental backups
 
 
-int main(int agrc, char ** argv)
+int main(int argc, char ** argv)
 {
 
     char *help_message;
@@ -55,39 +55,24 @@ int main(int agrc, char ** argv)
     unsigned int i;
     filelist fl;
 
-    //    DIR *dir;
-    help_message="Usage: %s [-c check backups]\n"
-                 "          [-r remove expired backups]\n"
-                 "          [-f force. It works only with -r option\n]"
-                 "          [-p path to directory where backups store\n]";
+    help_message="Usage: %s\t[-c check backups]\n"
+                 "          \t\t[-r remove expired backups]\n"
+                 "          \t\t[-f force. It works only with -r option]\n"
+                 "          \t\t[-p path to directory where backups store]\n";
+
     fl=createfilelist();
 
-    if((myscandir(fl,"/home/denis/test")))
+    while((oc=getopt(argc, argv, ":p:h")) != -1)
     {
-        WriteLog("got error");
-
-        exit(1);
-    }
-
-    for(i=0; i < fl->q; i++)
-        printf("%s%i %s\n","entry name #",i,fl->array[i]->fullpath);
-
-
-
-
-    closefilelist(fl);
-
-    /*
-        while((oc=getopt(argc, argv, ":crf:h")) != -1)
+        switch (oc)
         {
-            switch (oc)
-            {
-              case  '?':
-                  fprintf(stderr, help_message, argv[0]);
-                  exit(1);
-              case 'p':
-                    path=opt
-
+        case  'h':
+            fprintf(stderr, help_message, *argv);
+            exit(1);
+        case 'p':
+            path=optarg;
+            break;
+            /*
               case 'r':
 
                     chdir("")
@@ -97,16 +82,32 @@ int main(int agrc, char ** argv)
               case 'c':
                     find_expires_backups(dir);
               case 'f':
-              case ':':
-                fprintf(stderr, "Option -%c requires an argument\n",optopt);
-                exit(1);
-              default:
-                  fprintf(stderr,%s,help_message);
-                  exit(2);
-            }
+  */
+        case ':':
+            fprintf(stderr, "Option -%c requires an argument\n",optopt);
+            exit(1);
+        default:
+            fprintf(stderr,help_message,*argv);
+            exit(2);
         }
+    }
+    if (optind != argc)
+    {
+        fprintf(stderr, "%s",help_message);
+        exit(EXIT_FAILURE);
+    }
 
-    */
+    if((myscandir(fl,path)))
+    {
+        WriteLog("got error");
+        exit(1);
+    }
+
+    for(i=0; i < fl->q; i++)
+        printf("%s%i %s\n","entry name #",i,fl->array[i]->fullpath);
+
+
+    closefilelist(fl);
 
     return 0;
 }

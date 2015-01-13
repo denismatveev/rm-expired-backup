@@ -32,6 +32,7 @@ The best idea is to use conf file with a list of filenames. It is TODO.
 Catalogs have got names like this 20141104-2000-0; date-time-number as YYYYMMDD-HHMM-N
 fnmatch - match filename or pathname
 */
+//TODO: ввести wchar для отображения символов национальных алфавитов в названии файлов, каталогов
 int myscandir(filelist, const char*);
 int myscandir(filelist fl, const char *path)
 {
@@ -84,17 +85,18 @@ int myscandir(filelist fl, const char *path)
         switch(st.st_mode & S_IFMT)
         {
         case S_IFDIR:
-            de->el_type=0;
+            de->el_type=file;
             break;
         case S_IFREG:
-            de->el_type=1;
+            de->el_type=dir;
             break;
         default:
-            return -1;
+            de->el_type=other;
+            break;
 
         }
 
-        if(*(path+strlen(path)) != '/')
+        if( *(path + strlen(path) -1) != '/')
         {
             if(expand_d_element(de, 1))
                 return 1;
