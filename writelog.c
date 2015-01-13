@@ -7,7 +7,7 @@
 
 */
 
-int WriteLog(const char *);
+
 int WriteLog(const char *message)
 {
 

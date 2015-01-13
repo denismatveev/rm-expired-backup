@@ -5,6 +5,7 @@
 #include"filelist.h"
 #include<string.h>
 #include<stdio.h>
+#include"writelog.h"
 /*
 
 Possible filenames at an incremental backup dir:
@@ -33,7 +34,7 @@ Catalogs have got names like this 20141104-2000-0; date-time-number as YYYYMMDD-
 fnmatch - match filename or pathname
 */
 //TODO: ввести wchar для отображения символов национальных алфавитов в названии файлов, каталогов
-int myscandir(filelist, const char*);
+
 int myscandir(filelist fl, const char *path)
 {
     DIR *fd;
