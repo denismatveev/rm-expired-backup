@@ -54,14 +54,14 @@ int myscandir(filelist fl, const char *path)
     if((getcwd(currentdir,L_NAME)) == NULL)
     {
         perror("getcwd:");
-        exit(EXIT_FAILURE);
+        return 1;
     }
 
 
     if(((chdir(path)) < 0))
     {
         WriteLog("scandir: Can't change directory");
-        exit(EXIT_FAILURE);
+        return 1;
     }
 
     /* reading contents of the directory and filling the filelist */

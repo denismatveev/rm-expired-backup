@@ -76,7 +76,7 @@ int main(int argc, char ** argv)
           {
           case  'h':
             fprintf(stderr, help_message, *argv);
-            exit(1);
+            exit(EXIT_FAILURE);
           case 'p':
             path=optarg;
             break;
@@ -93,13 +93,13 @@ int main(int argc, char ** argv)
   */
           case '?':
             fprintf(stderr,help_message,*argv);
-            exit(2);
+            exit(EXIT_FAILURE);
           case ':':
             fprintf(stderr, "Option -%c requires an argument\n",optopt);
-            exit(1);
+            exit(EXIT_FAILURE);
           default:
             fprintf(stderr,help_message,*argv);
-            exit(2);
+            exit(EXIT_FAILURE);
           }
       }
     if (optind != argc)
@@ -111,7 +111,7 @@ int main(int argc, char ** argv)
     if((myscandir(fl,path)))
     {
         WriteLog("got error");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     for(i=0; i < fl->q; i++)

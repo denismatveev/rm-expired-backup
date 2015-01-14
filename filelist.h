@@ -14,7 +14,6 @@
 #include<sys/stat.h>
 #define ARRAY_SIZE 14 //initial size of an array
 #define L_NAME 1024
-#define  EXIT_SUCCESS 0
 #define ALLOCATION_ERROR 2
 
 enum __type {
