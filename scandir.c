@@ -6,6 +6,7 @@
 #include<string.h>
 #include<stdio.h>
 #include"writelog.h"
+#include"scandir.h"
 /*
 
 Possible filenames at an incremental backup dir:
@@ -118,7 +119,11 @@ int myscandir(filelist fl, const char *path)
     }
 
     closedir(fd);
-    chdir(currentdir); //returning back to the directory where program was started
+    if((chdir(currentdir))) //returning back to the directory where program was started
+      {
+        perror("cannot returning back\n");
+        return 1;
+      }
     free(currentdir);
 
 

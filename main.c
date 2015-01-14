@@ -24,6 +24,7 @@
 #include<sys/stat.h>
 #include"filelist.h"
 #include"writelog.h"
+#include"scandir.h"
 
 /****************************************************************************************************
 
@@ -52,25 +53,31 @@ int main(int argc, char ** argv)
 
     char *help_message;
     char oc;
-    char *path; //pointer to argv that contains path to backup dir
+    char *path=NULL; //pointer to argv that contains path to backup dir
     unsigned int i;
     filelist fl;
 
-    help_message="Usage: %s\t[-c check backups]\n"
+    help_message="Usage: %s\t-p <path to directory where backups store>\n"
+                 "          \t\t[-c check backups]\n"
                  "          \t\t[-r remove expired backups]\n"
                  "          \t\t[-f force. It works only with -r option]\n"
-                 "          \t\t[-p path to directory where backups store]\n";
+                  "         \t\t by default program just check backups and print expired on a terminal\n";
 
     fl=createfilelist();
 
+    if(argc < 3)
+      {
+        fprintf(stderr, help_message, *argv);
+        exit(EXIT_FAILURE);
+      }
     while((oc=getopt(argc, argv, ":p:h")) != -1)
-    {
+      {
         switch (oc)
-        {
-        case  'h':
+          {
+          case  'h':
             fprintf(stderr, help_message, *argv);
             exit(1);
-        case 'p':
+          case 'p':
             path=optarg;
             break;
             /*
@@ -84,14 +91,17 @@ int main(int argc, char ** argv)
                     find_expires_backups(dir);
               case 'f':
   */
-        case ':':
-            fprintf(stderr, "Option -%c requires an argument\n",optopt);
-            exit(1);
-        default:
+          case '?':
             fprintf(stderr,help_message,*argv);
             exit(2);
-        }
-    }
+          case ':':
+            fprintf(stderr, "Option -%c requires an argument\n",optopt);
+            exit(1);
+          default:
+            fprintf(stderr,help_message,*argv);
+            exit(2);
+          }
+      }
     if (optind != argc)
     {
         fprintf(stderr, "%s",help_message);
