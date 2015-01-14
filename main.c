@@ -56,6 +56,7 @@ int main(int argc, char ** argv)
     char *path=NULL; //pointer to argv that contains path to backup dir
     unsigned int i;
     filelist fl;
+    char *program_name="delbkps";
 
     help_message="Usage: %s\t-p <path to directory where backups store>\n"
                  "          \t\t[-c check backups]\n"
@@ -67,7 +68,7 @@ int main(int argc, char ** argv)
 
     if(argc < 3)
       {
-        fprintf(stderr, help_message, *argv);
+        fprintf(stderr, help_message, program_name);
         exit(EXIT_FAILURE);
       }
     while((oc=getopt(argc, argv, ":p:h")) != -1)
@@ -75,7 +76,7 @@ int main(int argc, char ** argv)
         switch (oc)
           {
           case  'h':
-            fprintf(stderr, help_message, *argv);
+            fprintf(stderr, help_message, program_name);
             exit(EXIT_FAILURE);
           case 'p':
             path=optarg;
@@ -92,19 +93,19 @@ int main(int argc, char ** argv)
               case 'f':
   */
           case '?':
-            fprintf(stderr,help_message,*argv);
+            fprintf(stderr,help_message,program_name);
             exit(EXIT_FAILURE);
           case ':':
             fprintf(stderr, "Option -%c requires an argument\n",optopt);
             exit(EXIT_FAILURE);
           default:
-            fprintf(stderr,help_message,*argv);
+            fprintf(stderr,help_message,program_name);
             exit(EXIT_FAILURE);
           }
       }
     if (optind != argc)
     {
-        fprintf(stderr, "%s",help_message);
+        fprintf(stderr,help_message,program_name);
         exit(EXIT_FAILURE);
     }
 
