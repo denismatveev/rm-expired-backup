@@ -13,9 +13,10 @@
 #include<sys/types.h>
 #include<sys/stat.h>
 #define ARRAY_SIZE 14 //initial size of an array
-#define L_NAME 1024
 #define ALLOCATION_ERROR 2
+#define MAX_Q_EL 100000 //limit for a hundred thousand records
 
+/* element types */
 enum __type {
     dir,
     file,
@@ -46,9 +47,22 @@ typedef struct {
 } __filelist;
 typedef __filelist* filelist;
 
-filelist createfilelist(void);
-int insertintofilelist(filelist, const d_element_t);
-void closefilelist(filelist); // delete list and free the memory
+filelist create_filelist(void);
+int insert_into_filelist(filelist, const d_element_t);
+void close_filelist(filelist); // delete list and free the memory
+
+/* dirlist */
+
+typedef struct {
+    d_element_t *array;
+    unsigned int size;//size of an array of d_element_t
+    unsigned int q;//current number of elements
+} __dirlist;
+typedef __dirlist* dirlist;
+
+dirlist create_dirlist(void);
+int insert_into_dirlist(dirlist, const d_element_t);
+void close_dirlist(dirlist); // delete list and free the memory
 
 #endif
 

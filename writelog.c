@@ -4,6 +4,7 @@
 /*
     file  writelog.c is wrapper to syslog;
     writes logs to syslog's local0
+    It is needed for writing logs when program works as a daemon
 
 */
 

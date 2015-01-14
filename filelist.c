@@ -2,9 +2,7 @@
 #include<string.h>
 /* A collection of functions for building list of files and directories */
 
-#define MAX_Q_EL 100000 //limit for a hundred thousand records
-
-filelist createfilelist(void)
+filelist create_filelist(void)
 {
     filelist fl;
 
@@ -18,7 +16,7 @@ filelist createfilelist(void)
     return fl;
 }
 
-void closefilelist(filelist fl)
+void close_filelist(filelist fl)
 {
     unsigned int i;
     for(i=0;i < fl->q;i++)
@@ -31,7 +29,7 @@ void closefilelist(filelist fl)
     return;
 }
 
-int insertintofilelist(filelist fl, const d_element_t de)
+int insert_into_filelist(filelist fl, const d_element_t de)
 {
     d_element_t *newarr;
     
@@ -89,7 +87,7 @@ int expand_d_element(d_element_t a, const unsigned int size)
 
     return 0;
 }
-
+/* remove_d_element() is used only in closefilelist() and due to it doesn't require filelist as its argument */
 void remove_d_element(d_element_t t)
 {
     free(t->fullpath);
@@ -97,3 +95,4 @@ void remove_d_element(d_element_t t)
 
     return;
 }
+

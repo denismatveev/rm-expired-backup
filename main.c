@@ -23,7 +23,6 @@
 #include<sys/types.h>
 #include<sys/stat.h>
 #include"filelist.h"
-#include"writelog.h"
 #include"scandir.h"
 
 /****************************************************************************************************
@@ -56,21 +55,24 @@ int main(int argc, char ** argv)
     char *path=NULL; //pointer to argv that contains path to backup dir
     unsigned int i;
     filelist fl;
+    dirlist dl;
     char *program_name="delbkps";
 
-    help_message="Usage: %s\t-p <path to directory where backups store>\n"
+    help_message="Usage: %s\t\t-p <path to directory where backups store>\n"
                  "          \t\t[-c check backups]\n"
                  "          \t\t[-r remove expired backups]\n"
                  "          \t\t[-f force. It works only with -r option]\n"
                   "         \t\t by default program just check backups and print expired on a terminal\n";
 
-    fl=createfilelist();
+    fl=create_filelist();
+    dl=create_dirlist();
 
-    if(argc < 3)
+   if(argc < 2)
       {
         fprintf(stderr, help_message, program_name);
         exit(EXIT_FAILURE);
       }
+
     while((oc=getopt(argc, argv, ":p:h")) != -1)
       {
         switch (oc)
@@ -109,9 +111,9 @@ int main(int argc, char ** argv)
         exit(EXIT_FAILURE);
     }
 
-    if((myscandir(fl,path)))
+    if((myscandir(dl,fl,path)))
     {
-        WriteLog("got error");
+        fprintf(stderr,"%s\n","I've got an error. Exit.");
         exit(EXIT_FAILURE);
     }
 
@@ -119,7 +121,8 @@ int main(int argc, char ** argv)
         printf("%s%i %s\n","entry name #",i,fl->array[i]->fullpath);
 
 
-    closefilelist(fl);
+    close_filelist(fl);
+    close_dirlist(dl);
 
     return 0;
 }

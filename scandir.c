@@ -5,8 +5,8 @@
 #include"filelist.h"
 #include<string.h>
 #include<stdio.h>
-#include"writelog.h"
 #include"scandir.h"
+
 /*
 
 Possible filenames at an incremental backup dir:
@@ -36,7 +36,7 @@ fnmatch - match filename or pathname
 */
 //TODO: ввести wchar для отображения символов национальных алфавитов в названии файлов, каталогов
 
-int myscandir(filelist fl, const char *path)
+int myscandir(dirlist dl, filelist fl, const char *path)
 {
     DIR *fd;
     struct dirent *entry;
@@ -60,7 +60,7 @@ int myscandir(filelist fl, const char *path)
 
     if(((chdir(path)) < 0))
     {
-        WriteLog("scandir: Can't change directory");
+        fprintf(stderr,"%s\n","scandir: Can't change directory");
         return 1;
     }
 
@@ -113,8 +113,20 @@ int myscandir(filelist fl, const char *path)
         de->mtime=st.st_mtime; //modification time
         de->parent_id=NULL; // default NULL. Will be filled at recursivepass() function
         de->to_delete=0; // default value is not to delete; Will be changed at moment of analysis
+        switch(de->el_type)
+          {
+          case dir:
+            if(insert_into_dirlist(dl,de))
+              return 1;
+            break;
+          case file:
+            if(insert_into_filelist(fl,de))
+              return 1;
+            break;
+          default:
+            break;
+          }
 
-        insertintofilelist(fl,de); //inserting into filelist array
 
     }
 

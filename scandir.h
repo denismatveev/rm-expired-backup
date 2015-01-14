@@ -1,6 +1,7 @@
 #ifndef SCANDIR_H
 #define SCANDIR_H
-int myscandir(filelist, const char*);
+#define L_NAME 1024
+int myscandir(dirlist, filelist, const char*);
 
 #endif // SCANDIR_H
 
