@@ -1,12 +1,12 @@
 # Makefile for remove expired files and dirs
 CC=gcc 
 CFLAGS=-Wall -O3 
-SOURCES=filelist.c writelog.c recursivepass.c scandir.c main.c
+SOURCES=dirlist.c filelist.c writelog.c recursivepass.c scandir.c main.c
 EXEC=delbkps
 OBJECTS=$(SOURCES:.c=.o)
 all:$(EXEC) 
 
-filelist:filelist.c filelist.h 
+filelist:dirlist.c dirlist.h filelist.c filelist.h 
 	$(CC) $(CFLAGS) filelist.c -c -I. -o filelist.o
 scandir:scandir.c 
 	$(CC) $(CFLAGS) scandir.c -I. -c -o scandir.o
