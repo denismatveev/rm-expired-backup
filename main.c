@@ -40,7 +40,9 @@ removefromfilelist()
 
 Требования к программе:
 
-
+TODO: сделать функцию (void*)create_list(void) вместо create_filelist() и create_dirlist()
+TODO: wchar_t вместо char
+TODO: добавить длинные опции
 
 **********************************************************************************************************/
 #define FULLBACKUPS 2 // number of full backup
