@@ -27,12 +27,12 @@
 
 /****************************************************************************************************
 
-1. считать кол-во файлов в каталоге (n) done
-2. Создать структуру для хранения данных об элементе каталога
+1. считать кол-во файлов в каталоге (n) - done
+2. Создать структуру для хранения данных об элементе каталога - done
 3. Создать динамический массив для хранения стрктур из п.2, но только тех, которые не удовлетворяют условиям, что дата их создания внутри последних 14 дней
 4. удалить эти файлы или каталоги(которые в массиве)
-5. Добавить логгирование действий в syslog()
-6. Добавить ограничение на количество элементов(например, 100000)
+5. Добавить логгирование действий в syslog() для демона
+6. Добавить ограничение на количество элементов(например, 100000) - done
 функции:
 createfilelist()
 inserintofilelist()
@@ -48,14 +48,14 @@ TODO: добавить длинные опции
 #define FULLBACKUPS 2 // number of full backup
 #define INCRBACKUPS 14 // number of incremental backups
 
-
+int recursivepass(dirlist, filelist, const char*);
 int main(int argc, char ** argv)
 {
 
     char *help_message;
     char oc;
-    char *path=NULL; //pointer to argv that contains path to backup dir
     unsigned int i;
+    char *path=NULL; //pointer to argv that contains path to backup dir
     filelist fl;
     dirlist dl;
     char *program_name="delbkps";
@@ -113,14 +113,19 @@ int main(int argc, char ** argv)
         exit(EXIT_FAILURE);
     }
 
-    if((myscandir(dl,fl,path)))
-    {
-        fprintf(stderr,"%s\n","I've got an error. Exit.");
-        exit(EXIT_FAILURE);
-    }
-
+//    if((myscandir(dl,fl,path)))
+//    {
+//        fprintf(stderr,"%s\n","I've got an error. Exit.");
+//        exit(EXIT_FAILURE);
+//    }
+    if(recursivepass(dl, fl, path))
+      exit(EXIT_FAILURE);
+    printf("dirs:\n");
+    for(i=0; i < dl->q; i++)
+        printf("%s%i %s\n","entry name #",i,dl->array[i]->fullpath);
+    printf("files:\n");
     for(i=0; i < fl->q; i++)
-        printf("%s%i %s\n","entry name #",i,fl->array[i]->fullpath);
+        printf("%s%i %s\n","entry name #",i, fl->array[i]->fullpath);
 
 
     close_filelist(fl);
