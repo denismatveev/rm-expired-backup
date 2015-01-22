@@ -16,6 +16,7 @@
 #define ALLOCATION_ERROR 2
 #define MAX_Q_EL 100000 //limit for a hundred thousand records
 
+
 /* element types */
 enum __type {
     dir,
@@ -27,7 +28,7 @@ typedef enum __type* type_t;
 /* Dir element */
 typedef struct  {
     char *fullpath; // absolute path to file or dir;
-    unsigned int fullpathlength;
+    //unsigned int fullpathlength;
     time_t mtime; // modification time of file
     unsigned short int el_type;//element type dir or file
     struct  __DirElement *parent_id; //parent id; NULL if no parent or it is a directory

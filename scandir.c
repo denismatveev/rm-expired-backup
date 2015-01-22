@@ -7,6 +7,8 @@
 #include<string.h>
 #include<stdio.h>
 #include"scandir.h"
+#include<errno.h>
+#include"writelog.h"
 
 /*
 
@@ -38,31 +40,19 @@ fnmatch - match filename or pathname
 //TODO: ввести wchar_t для отображения символов национальных алфавитов в названии файлов, каталогов
 //FIXME: stat() for symbolic link returns that's a directory. It is needs to find a work around
 //FIXME сделать обработку ошибок, чтобы работа не останавливалсь, например, при ошибке permission denied
-int myscandir(dirlist dl, filelist fl, const char *path)
+int myscandir(dirlist dl, filelist fl, const char *path, const int wlog, int skip_hidden)
 {
     DIR *fd;
     struct dirent *entry;
     struct stat st;
-    char *currentdir;//absolute path to working directory
 
-    currentdir=(char*)malloc(L_NAME*sizeof(char));
 
+/* open a directory and get an descriptor */
     if((fd=opendir(path)) == NULL)
     {
+        if(wlog)
+          WriteLog("Cannot open directory for scanning: ");
         perror(path);
-        return -1;
-    }
-
-    if((getcwd(currentdir,L_NAME)) == NULL)
-    {
-        perror("getcwd:");
-        return -1;
-    }
-
-
-    if(((chdir(path)) < 0))
-    {
-        fprintf(stderr,"%s\n","scandir: Can't change directory");
         return -1;
     }
 
@@ -77,14 +67,34 @@ int myscandir(dirlist dl, filelist fl, const char *path)
         if(!(strcmp(entry->d_name,".")) || !(strcmp(entry->d_name, "..")))
             continue;
         /* skip hidden dirs and files */
-        if(entry->d_name[0] == '.')
-          continue;
+        if(skip_hidden)
+          {
+            if(entry->d_name[0] == '.')
+            continue;
+          }
 
-        if((stat(entry->d_name, &st) == -1))
+
+        if( *(path + strlen(path) -1) != '/')
         {
-            perror(entry->d_name);
+            if(expand_d_element(de, 1))
+                return -1;
 
+            strcat(de->fullpath,"/"); // adding a trailing slash
+        }
+
+        if(expand_d_element(de, strlen(entry->d_name)))
+          /* if got an error of allocation memory */
             return -1;
+
+        strcat(de->fullpath,entry->d_name); //concatenate strings path + name
+
+        if(stat(de->fullpath, &st))
+        {
+            if(wlog)
+              WriteLog("Cannot stat file or directory: ");
+           perror(entry->d_name);
+
+           return -1;
         }
 
 
@@ -102,18 +112,6 @@ int myscandir(dirlist dl, filelist fl, const char *path)
 
         }
 
-        if( *(path + strlen(path) -1) != '/')
-        {
-            if(expand_d_element(de, 1))
-                return -1;
-
-            strcat(de->fullpath,"/"); // adding a trailing slash
-        }
-
-        if(expand_d_element(de, strlen(entry->d_name)))
-            return -1;
-
-        strcat(de->fullpath,entry->d_name); //concatenate strings path + name
         de->mtime=st.st_mtime; //modification time
         de->parent_id=NULL; // default NULL. Will be filled at recursivepass() function, points to parent dir
         de->to_delete=0; // default value is not to delete; Will be changed at moment of analysis
@@ -133,13 +131,6 @@ int myscandir(dirlist dl, filelist fl, const char *path)
     }
 
     closedir(fd);
-    if((chdir(currentdir))) //returning back to the directory where program was started
-      {
-        perror("cannot returning back\n");
-        return -1;
-      }
-    free(currentdir);
-
 
     return 0;
 }

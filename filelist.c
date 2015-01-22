@@ -68,7 +68,7 @@ d_element_t create_d_element (const char *path)
     if((a->fullpath=(char*)calloc(size, sizeof(char*))) == NULL)
         return NULL;
 
-    a->fullpathlength=size;
+    //a->fullpathlength=size;
     strcpy(a->fullpath,path);
 
     return a;
@@ -78,12 +78,12 @@ int expand_d_element(d_element_t a, const unsigned int size)
 {
     //d_element_t a_t;
     char *new;
-    unsigned int newsize=a->fullpathlength+size+1;
+    unsigned int newsize=strlen(a->fullpath)+size+1;
 
     if((new=(char*)realloc(a->fullpath,(newsize)*sizeof(char*))) == NULL)
         return ALLOCATION_ERROR;
     a->fullpath=new;
-    a->fullpathlength=newsize;
+    //a->fullpathlength=newsize;
 
     return 0;
 }
