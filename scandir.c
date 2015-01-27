@@ -132,5 +132,5 @@ int myscandir(dirlist dl, filelist fl, const char *path, const int wlog, int ski
 
     closedir(fd);
 
-    return 0;
+    return dl->q;
 }
