@@ -50,16 +50,17 @@ int myscandir(dirlist dl, filelist fl, const char *path, const int wlog, int ski
 /* open a directory and get an descriptor */
     if((fd=opendir(path)) == NULL)
     {
-        if(wlog)
-          WriteLog("Cannot open directory for scanning: ");
         perror(path);
-        return -1;
-    }
+        if(wlog)
+          WriteLog("Cannot open directory for scanning");
+        return -2;
 
+    }
     /* reading contents of the directory and filling the filelist */
     rewinddir(fd);
     while((entry=readdir(fd)) != NULL)
     {
+
         d_element_t de;
 
         de=create_d_element(path);
@@ -129,6 +130,7 @@ int myscandir(dirlist dl, filelist fl, const char *path, const int wlog, int ski
             break;
           }
     }
+
 
     closedir(fd);
 
