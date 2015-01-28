@@ -52,7 +52,7 @@ int myscandir(dirlist dl, filelist fl, const char *path, const int wlog, int ski
     {
         perror(path);
         if(wlog)
-          WriteLog("Cannot open directory for scanning");
+          WriteLog(path);
         return -2;
 
     }
@@ -92,7 +92,7 @@ int myscandir(dirlist dl, filelist fl, const char *path, const int wlog, int ski
         if(stat(de->fullpath, &st))
         {
             if(wlog)
-              WriteLog("Cannot stat file or directory: ");
+              WriteLog("Cannot stat file or directory");
            perror(entry->d_name);
 
            return -1;
