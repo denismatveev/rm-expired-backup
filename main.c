@@ -113,7 +113,7 @@ int main(int argc, char ** argv)
     }
 
 
-    if(recursivepass(dl, fl, path, wlog, skip_hidden, max_depth))
+    recursivepass(dl, fl, path, wlog, skip_hidden, max_depth);
       //exit(EXIT_FAILURE);
     printf("dirs:\n");
     for(i=0; i < dl->q; i++)

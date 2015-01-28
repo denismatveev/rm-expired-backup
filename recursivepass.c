@@ -23,22 +23,23 @@ int recursivepass(dirlist dl, filelist fl, const char *path, const int wlog, con
     return -1;
 
   if(!max_depth) //maxdepth = 0
-    for(;i < dl->q;i++)
-      if(myscandir(dl,fl,dl->array[i]->fullpath, wlog, skip_hidden) == -1)
-        return -1;
-
-      else if(max_depth > 1) //max_depth > 1
+    {
+      for(i=0;i < dl->q;i++)
+        if(myscandir(dl,fl,dl->array[i]->fullpath, wlog, skip_hidden) == -1)
+          return -1;
+    }
+  else if(max_depth > 1) //max_depth > 1
+    {
+      i=0;
+      for(;level < max_depth;level++)
         {
-          i=0;
-          for(;level < max_depth;level++)
-            {
-              n=dl->q;
-              for(;i < n;i++)
-                if((myscandir(dl,fl,dl->array[i]->fullpath, wlog, skip_hidden)) == -1)
-                  return -1;
+          n=dl->q;
+          for(;i < n;i++)
+            if((myscandir(dl,fl,dl->array[i]->fullpath, wlog, skip_hidden)) == -1)
+              return -1;
 
-            }
         }
+    }
 
   return 0;
 }
