@@ -20,8 +20,8 @@
 /* element types */
 enum __type {
     dir,
-    file,
-    other
+    file
+   // other
 };
 typedef enum __type* type_t;
 

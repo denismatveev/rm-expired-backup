@@ -35,16 +35,23 @@ xtrabackup_logfile
 
 The best idea is to use conf file with a list of filenames. It is TODO.
 Catalogs have got names like this 20141104-2000-0; date-time-number as YYYYMMDD-HHMM-N
-fnmatch - match filename or pathname
+
 */
 //TODO: ввести wchar_t для отображения символов национальных алфавитов в названии файлов, каталогов
-//FIXME: stat() for symbolic link returns that's a directory. It is needs to find a work around
-//FIXME сделать обработку ошибок, чтобы работа не останавливалсь, например, при ошибке permission denied
+
+
+//TODO Добавить поиск по шаблону regex в массиве имен, который получается при чтении конфига
+//TODO Добавить аргумент flags чтобы не использовать 100500 аргументов, тем более они могут добавляться/удаляться
+//например, WLOG & SK_HIDN будет как писать лог и не показывать скрытые каталоги.
+// glob, globfree - find pathnames matching a pattern, free memory from glob()
+// fnmatch - match filename or pathname
+
 int myscandir(dirlist dl, filelist fl, const char *path, const int wlog, int skip_hidden)
 {
     DIR *fd;
     struct dirent *entry;
     struct stat st;
+
 
 
 /* open a directory and get an descriptor */
@@ -56,14 +63,15 @@ int myscandir(dirlist dl, filelist fl, const char *path, const int wlog, int ski
         return -2;
 
     }
-    /* reading contents of the directory and filling the filelist */
+    /* reading contents of the directory and filling the filelist and the dirlist */
     rewinddir(fd);
     while((entry=readdir(fd)) != NULL)
     {
 
         d_element_t de;
 
-        de=create_d_element(path);
+        if((de=create_d_element(path)) == NULL)
+           return 1;
         /* if directories are . and ..  skipping it */
         if(!(strcmp(entry->d_name,".")) || !(strcmp(entry->d_name, "..")))
             continue;
@@ -89,7 +97,7 @@ int myscandir(dirlist dl, filelist fl, const char *path, const int wlog, int ski
 
         strcat(de->fullpath,entry->d_name); //concatenate strings path + name
 
-        if(stat(de->fullpath, &st))
+        if(lstat(de->fullpath, &st))
         {
             if(wlog)
               WriteLog("Cannot stat file or directory");
@@ -108,8 +116,10 @@ int myscandir(dirlist dl, filelist fl, const char *path, const int wlog, int ski
             de->el_type=dir;
             break;
         default:
-            de->el_type=other;
-            break;
+            remove_d_element(de);
+            continue;
+            //de->el_type=other;
+            //break;
 
         }
 
@@ -119,7 +129,7 @@ int myscandir(dirlist dl, filelist fl, const char *path, const int wlog, int ski
         switch(de->el_type)
           {
           case dir:
-            if(insert_into_dirlist(dl,de))
+            if ( insert_into_dirlist(dl,de))
               return -1;
             break;
           case file:
@@ -132,7 +142,13 @@ int myscandir(dirlist dl, filelist fl, const char *path, const int wlog, int ski
     }
 
 
-    closedir(fd);
+    if(closedir(fd) < 0)
+      {
+      if(wlog)
+        WriteLog("Cannot close directory");
+      perror("Cannot close directory\n");
+      }
+
 
     return dl->q;
 }

@@ -12,10 +12,11 @@
 
 Требования к программе:
 
-TODO: сделать функцию (void*)create_list(void) вместо create_filelist() и create_dirlist()
+TODO: сделать функцию (void*)create_list(void) вместо create_filelist() и create_dirlist() и использовать приведение типов
 TODO: wchar_t вместо char
 TODO: добавить длинные опции
-
+//TODO сделать static linking
+//TODO повесить обработчик сигналов в версию с демоном чтобы перечитывать конфиг
 **********************************************************************************************************/
 #define FULLBACKUPS 2 // number of full backup
 #define INCRBACKUPS 14 // number of incremental backups
@@ -44,9 +45,9 @@ int main(int argc, char ** argv)
                  "          \t\t[-m <number> maximum depth of scanning; default value is 0\n"
                  "         \t\t by default program just check backups and print expired on a terminal\n";
 
-    if(!(fl=create_filelist()))
+    if((fl=create_filelist()) == NULL)
       exit(EXIT_FAILURE);
-    if(!(dl=create_dirlist()))
+    if((dl=create_dirlist()) == NULL)
        exit(EXIT_FAILURE);
 
    if(argc < 2)
@@ -87,7 +88,7 @@ int main(int argc, char ** argv)
               {
                 if(!isdigit(a))
                   {
-                    fprintf(stderr,help_message,program_name);
+                    fprintf(stderr,"Option -%c requires a number\n", oc);
                     exit(EXIT_FAILURE);
                   }
                 j++;
@@ -111,7 +112,7 @@ int main(int argc, char ** argv)
         fprintf(stderr,help_message,program_name);
         exit(EXIT_FAILURE);
     }
-
+/* temporary printing */
 
     recursivepass(dl, fl, path, wlog, skip_hidden, max_depth);
       //exit(EXIT_FAILURE);
@@ -121,7 +122,7 @@ int main(int argc, char ** argv)
     printf("files:\n");
     for(i=0; i < fl->q; i++)
         printf("%s%i %s\n","file name #",i, fl->array[i]->fullpath);
-
+/*--------------------------*/
 
     close_filelist(fl);
     close_dirlist(dl);
