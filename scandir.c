@@ -46,11 +46,24 @@ Catalogs have got names like this 20141104-2000-0; date-time-number as YYYYMMDD-
 // glob, globfree - find pathnames matching a pattern, free memory from glob()
 // fnmatch - match filename or pathname
 
-int myscandir(dirlist dl, filelist fl, const char *path, const int wlog, int skip_hidden)
+int myscandir(dirlist dl, filelist fl, const char *path, const int flags)
 {
+    unsigned short wlog=0;
+    unsigned short skip_hidden=0;
     DIR *fd;
     struct dirent *entry;
     struct stat st;
+
+    if(flags == 3)
+      {
+        wlog=1;
+        skip_hidden=1;
+      }
+    else if(flags == 1)
+      wlog=1;
+    else if(flags == 2)
+      skip_hidden=1;
+    else;
 
 
 
