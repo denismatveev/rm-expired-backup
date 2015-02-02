@@ -8,17 +8,23 @@
 #include"writelog.h"
 #include<ctype.h>
 
-/****************************************************************************************************
+/*******************************************************************************************************
 
-Требования к программе:
 
 TODO: сделать функцию (void*)create_list(void) вместо create_filelist() и create_dirlist() и использовать приведение типов
 TODO: wchar_t вместо char
 TODO: добавить длинные опции
-//TODO сделать static linking
-//TODO повесить обработчик сигналов в версию с демоном чтобы перечитывать конфиг
-**********************************************************************************************************/
-#define FULLBACKUPS 2 // number of full backup
+TODO: сделать static linking в qtcreator
+TODO повесить обработчик сигналов в версию с демоном чтобы перечитывать конфиг
+********************************************************************************************************
+bsearch -  binary search of a sorted array
+qsort, qsort_r - sort an array
+strcoll - compare two strings using the current locale
+fnmatch - match filename or pathname
+glob, globfree - find pathnames matching a pattern, free memory from glob()
+*********************************************************************************************************
+*/
+#define FULLBACKUPS 2 // number of full backups
 #define INCRBACKUPS 14 // number of incremental backups
 
 int main(int argc, char ** argv)

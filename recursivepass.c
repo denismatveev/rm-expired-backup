@@ -8,7 +8,7 @@ int sort_files_by_name(filelist);
 int sort_files_by_date(filelist);
 
 /* Function for passing all subdirectories. Use linked list and binary tree data structures. */
-/* Passing of the tree by the method of pass in width(BFS, Breadth-first search)             */
+/* Passing of the tree by the method of pass in width (aka BFS, Breadth-first search)             */
 //TODO добавить flags чтобы не использовать 100500 аргументов
 
 int recursivepass(dirlist dl, filelist fl, const char *path, const int flags, const unsigned int max_depth)
