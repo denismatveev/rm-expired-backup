@@ -12,10 +12,7 @@
 //TODO сделать функцию с переменным числом аргументов и можно будет передвать название файла и добавить loglevel(хотя есть LOG_ERR у syslog)
 int WriteLog(const char *message)
 {
-    openlog(NULL, LOG_CONS, LOG_LOCAL0);
+     syslog(LOG_WARNING, "%s%s%s",message, ": ",strerror(errno));
 
-    syslog(LOG_LOCAL0 | LOG_ERR, "%s%s%s",message, ": ",strerror(errno));
-
-    closelog();
     return 0;
 }

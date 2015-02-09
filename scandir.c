@@ -73,6 +73,7 @@ int myscandir(dirlist dl, filelist fl, const char *path, const int flags)
         perror(path);
         if(wlog)
           WriteLog(path);
+
         return -2;
 
     }
