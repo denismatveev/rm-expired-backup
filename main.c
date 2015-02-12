@@ -42,7 +42,7 @@ int main(int argc, char ** argv)
     unsigned int max_depth=0;
     unsigned int j=0;
     char a;
-
+    unsigned int flags;
     help_message="Usage: %s\n\t\t\t-p <path to directory where backups store>\n"
                  "          \t\t[-c check backups]\n"
                  "          \t\t[-r remove expired backups]\n"
@@ -120,13 +120,13 @@ int main(int argc, char ** argv)
     }
 /* temporary printing */
     if(wlog == 1 && skip_hidden == 1)
-        recursivepass(dl, fl, path, WLOG | SKHDN, max_depth);
-    else if(wlog)
-        recursivepass(dl, fl, path, WLOG, max_depth);
-    else if(skip_hidden)
-        recursivepass(dl, fl, path, SKHDN, max_depth);
-    else 
-        recursivepass(dl, fl, path, 0, max_depth);
+        flags=3;
+    else if(wlog == 1 && skip_hidden == 0)
+        flags=1;
+    else if(skip_hidden == 1 && wlog == 0)
+        flags=2;
+    else flags=0;
+    recursivepass(dl, fl, path, flags, max_depth);
       //exit(EXIT_FAILURE);
     printf("dirs:\n");
     for(i=0; i < dl->q; i++)
