@@ -2,7 +2,7 @@
 CC=gcc 
 CFLAGS=-Wall -O3 -I. -static
 SOURCES=dirlist.c filelist.c writelog.c recursivepass.c scandir.c main.c
-EXEC=delbkps
+EXEC=removebkps
 OBJECTS=$(SOURCES:.c=.o)
 LIBPATH=-L/usr/lib/x86_64-linux-gnu
 LIBS=-lc
