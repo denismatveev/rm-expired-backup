@@ -163,6 +163,5 @@ int myscandir(dirlist dl, filelist fl, const char *path, const int flags)
       perror("Cannot close directory\n");
       }
 
-
     return dl->q;
 }
